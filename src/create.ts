@@ -25,35 +25,50 @@ const main = async () => {
   //     },
   //   });
   //   console.log(createCategory);
-  //   const createPost = await prisma.post.create({
-  //     data: {
-  //       title: "Programming in JavaScript",
-  //       content:
-  //         "JavaScript is a versatile programming language used for web development. It allows you to create dynamic and interactive web applications.",
-  //       authorId: 1,
-  //       published: true,
-  //       postCategory: {
-  //         create: {
-  //           categoryId: 5,
-  //           //   category: {
-  //           //     connect: {
-  //           //       id: 1,
-  //           //     },
-  //           //   },
-  //         },
-  //       },
-  //     },
-  //     include: {
-  //       postCategory: {
-  //         include: {
-  //           category: true,
-  //           post: true,
-  //         },
-  //       },
-  //       author: true,
-  //     },
-  //   });
-  //   console.log(createPost);
+
+  const createPost = await prisma.post.create({
+    data: {
+      title: "Software Engineering VS Software Development",
+      content:
+        "Software engineering and software development are often used interchangeably, but they have distinct meanings. Software engineering is a broader discipline that encompasses the entire software development lifecycle, including requirements gathering, design, implementation, testing, deployment, and maintenance. It focuses on applying engineering principles to create high-quality software systems. On the other hand, software development refers specifically to the process of writing code and building software applications. It is a subset of software engineering that involves the actual coding and implementation of software solutions.",
+      authorId: 1,
+      published: true,
+      postCategory: {
+        // create: {
+        // //   categoryId: 5,
+        //   //   category: {
+        //   //     connect: {
+        //   //       id: 1,
+        //   //     },
+        //   //   },
+        // },
+
+        // many-to-many relationship
+        create: [
+          {
+            categoryId: 3,
+          },
+          {
+            categoryId: 4,
+          },
+          {
+            categoryId: 5,
+          },
+        ],
+      },
+    },
+    include: {
+      postCategory: {
+        include: {
+          category: true,
+          post: true,
+        },
+      },
+      author: true,
+    },
+  });
+
+  console.log(createPost);
 };
 
 main();
